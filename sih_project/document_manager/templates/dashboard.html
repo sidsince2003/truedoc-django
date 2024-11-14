@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Document Verification Portal{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">My Documents</h1>
+<div class="row">
+    <!-- Upload Document Section -->
+    <div class="col-md-4 mb-4">
+        <div class="card shadow rounded">
+            <div class="card-body">
+                <h4 class="card-title mb-3">Upload New Document</h4>
+                <form method="post" action="{% url 'upload_document' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="document_type" class="form-label">Document Type</label>
+                        <select class="form-select" id="document_type" name="document_type" required>
+                            <option value="">Select document type</option>
+                            <option value="birth_certificate">Birth Certificate</option>
+                            <option value="academic_transcript">Academic Transcript</option>
+                            <option value="experience_certificate">Experience Certificate</option>
+                            <option value="identification_card">Identification Card</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-3" id="other_document_type" style="display: none;">
+                        <label for="other_type" class="form-label">Specify Document Type</label>
+                        <input type="text" class="form-control" id="other_type" name="other_type">
+                    </div>
+                    <div class="mb-3">
+                        <label for="document" class="form-label">Choose File</label>
+                        <input class="form-control" type="file" id="document" name="document" required accept=".pdf,.jpg,.jpeg,.png">
+                        <div class="form-text">Accepted formats: PDF, JPG, JPEG, PNG</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Upload</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- My Documents Section -->
+    <div class="col-md-8">
+        <div class="card shadow rounded">
+            <div class="card-body">
+                <h4 class="card-title mb-3">My Documents</h4>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Document Type</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Date Uploaded</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for doc in page_obj %}
+                            <tr>
+                                <td>{{ doc.type }}</td>
+                                <td>
+                                    <span class="badge bg-{% if doc.status == 'Verified' %}success{% elif doc.status == 'Pending' %}warning{% else %}danger{% endif %}">
+                                        {{ doc.status }}
+                                    </span>
+                                </td>
+                                <td>{{ doc.date_uploaded }}</td>
+                                <td>
+                                    <a href="{% url 'view_document' doc.id %}" class="btn btn-sm btn-outline-primary">View</a>
+                                    <a href="{% url 'download_document' doc.id %}" class="btn btn-sm btn-outline-secondary">Download</a>
+                                    <button onclick="updateOCR('{{ doc.id }}')" class="btn btn-sm btn-outline-info">Update OCR</button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination Section -->
+                <nav aria-label="Document list pagination">
+                    <ul class="pagination justify-content-center">
+                        {% for page_num in page_obj.paginator.page_range %}
+                            <li class="page-item {% if page_obj.number == page_num %}active{% endif %}">
+                                <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Show/hide "Other" input field based on document type selection
+    document.getElementById('document_type').addEventListener('change', function() {
+        const otherField = document.getElementById('other_document_type');
+        otherField.style.display = this.value === 'other' ? 'block' : 'none';
+    });
+
+    // Function to update OCR for a document
+    function updateOCR(fileId) {
+        fetch(`/update_ocr/${fileId}`, { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                window.location.reload();  // Refresh the document list after OCR update
+            })
+            .catch(error => console.error('Error:', error));
+    }
+</script>
+{% endblock %}

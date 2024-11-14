@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Document Details</h1>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ document.type }}</h5>
+                <p class="card-text">Status: {{ document.status }}</p>
+                <p class="card-text">Uploaded on: {{ document.date_uploaded }}</p>
+                <h6 class="card-subtitle mb-2 text-muted">OCR Text:</h6>
+                <pre class="card-text">{{ document.ocr_text }}</pre>
+                <a href="{% url 'download_document' file_id=document.id %}" class="btn btn-primary">Download Document</a>
+                <button onclick="updateOCR('{{ document.id }}')" class="btn btn-info">Update OCR</button>
+                <a href="{% url 'index' %}" class="btn btn-secondary">Back to Dashboard</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateOCR(fileId) {
+            fetch(`/update_ocr/${fileId}`, { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    location.reload(); // Refresh the page to show updated OCR text
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>

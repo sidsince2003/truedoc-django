@@ -1,0 +1,123 @@
+/* Reset some basic elements */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Gradient Background */
+body {
+    background: linear-gradient(135deg, #0066cc, #33ccff); /* Updated gradient for consistency */
+    color: #fff;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    height: 100%;
+}
+
+/* Container Styling */
+.container-fluid {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #333; /* Text color for readability */
+}
+
+/* Header Styling */
+header, .navbar {
+    margin-bottom: 20px;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    color: #333;
+    text-align: center;
+}
+
+/* Button Styling */
+button, .btn {
+    background-color: #005bb5; /* Updated color for consistency */
+    color: #fff;
+    border: none;
+    border-radius: 20px; /* Rounded corners for consistency */
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+button:hover, .btn-primary:hover {
+    background-color: #004a99; /* Updated color for hover state */
+}
+
+/* Form Styling */
+form {
+    margin-bottom: 20px;
+}
+
+form input[type="text"],
+form input[type="file"],
+form select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 20px; /* Rounded corners for consistency */
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+form input[type="file"] {
+    border: none;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table th,
+table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+table th {
+    background-color: #0044cc; /* Updated color for consistency */
+    color: #fff;
+}
+
+table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Alerts */
+.alert {
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container-fluid {
+        padding: 10px;
+    }
+
+    header h1 {
+        font-size: 1.8rem;
+    }
+}
