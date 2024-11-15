@@ -10,7 +10,7 @@
         <div class="card shadow rounded">
             <div class="card-body">
                 <h4 class="card-title mb-3">Upload New Document</h4>
-                <form method="post" action="{% url 'upload_document' %}" enctype="multipart/form-data">
+                <form method="post" action="/upload_document" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="mb-3">
                         <label for="document_type" class="form-label">Document Type</label>

@@ -36,7 +36,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{{ url_for('index') }}">
+            <a class="navbar-brand" href="/index">
                 <img src="https://raw.githubusercontent.com/soham2710/sih/main/static/Images/truedoc.png" alt="TrueDoc Logo" class="img-fluid" style="width: 150px; height: auto;">
                 TrueDoc
             </a>
@@ -47,17 +47,17 @@
                 <ul class="navbar-nav ms-auto">
                     {% if 'username' in session %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('index') }}">Dashboard</a>
+                        <a class="nav-link" href="/index">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                        <a class="nav-link" href="/logout">Logout</a>
                     </li>
                     {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                        <a class="nav-link" href="/login">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('signup') }}">Sign Up</a>
+                        <a class="nav-link" href="/signup">Sign Up</a>
                     </li>
                     {% endif %}
                 </ul>

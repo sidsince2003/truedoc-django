@@ -29,11 +29,15 @@ def login(request):
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
+        # import pdb
+        # pdb.set_trace()
         if user is not None:
             auth_login(request, user)
+            print("login successful")
             return redirect('dashboard')  # This should redirect to the dashboard
         else:
             messages.error(request, 'Invalid username or password')
+            print("login failed")
             return redirect('login')
     return render(request, 'index.html')
 
@@ -44,8 +48,10 @@ def signup(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
+            print("Your account has been created!")
             messages.success(request, 'Your account has been created!')
             return redirect('login')
+        print("invalid form")
     else:
         form = UserCreationForm()
     return render(request, 'signup.html', {'form': form})
@@ -53,6 +59,9 @@ def signup(request):
 # Dashboard view
 @login_required
 def dashboard(request):
+    print("entered to dashboard")
+    # import pdb
+    # pdb.set_trace()
     documents = Document.objects.filter(owner=request.user)
     return render(request, 'dashboard.html', {'documents': documents})
 
